@@ -1,0 +1,18 @@
+--²úÆ·±í
+CREATE TABLE Product(
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductNo] [varchar](50) NOT NULL,
+	[ProductName] [nvarchar](100) NOT NULL,
+	[CateNo] [varchar](50) NULL,
+	[CateName] [nvarchar](50) NULL,
+	[IsDelete] [int] NOT NULL,
+	[CreateTime] [datetime] NOT NULL,
+	[CreateUser] [nvarchar](50) NULL
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] 
+
+GO
+

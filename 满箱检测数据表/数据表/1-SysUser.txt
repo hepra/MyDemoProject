@@ -1,0 +1,19 @@
+
+--系统用户表
+CREATE TABLE SysUser(
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[UserName] [varchar](50) NOT NULL,
+	[PassWord] [varchar](50) NOT NULL,
+	[RealName] [nvarchar](50) NULL,
+	[IsDelete] [int] NOT NULL,
+	[DepartNo] [varchar](50) NULL,
+	[CreateTime] [datetime] NOT NULL,
+	[CreateUser] [varchar](50) NULL
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+

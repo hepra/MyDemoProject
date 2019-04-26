@@ -7,6 +7,7 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         mc:Ignorable="d"
+        x:Name="OverFlowCheckMainWindow"
         Title="MainWindow" Height="760" Width="1300">
     <Window.Resources>
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -14,7 +15,7 @@
                 <!--<ResourceDictionary Source="Styles/AduWindow.xaml" />-->
                 <ResourceDictionary Source="Styles/Base.xaml" />
                 <ResourceDictionary Source="Styles/Button.xaml" />
-                <ResourceDictionary Source="Styles/ComboBox.xaml" />
+                <ResourceDictionary Source="Styles/Common.xaml" />
                 <ResourceDictionary Source="Styles/Scrollview.xaml" />
                 <ResourceDictionary Source="Styles/DataGrid.xaml" />
                 <ResourceDictionary Source="Styles/GroupBox.xaml" />
@@ -24,6 +25,7 @@
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="微软雅黑"></Setter>
                 <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
@@ -58,126 +60,178 @@
             <!--body-->
             <Grid x:Name="gridBody" Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="260"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
+                <Grid Grid.Column="0" >
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="100"></RowDefinition>
+                        <RowDefinition Height="180"></RowDefinition>
+                        <RowDefinition Height="180"></RowDefinition>
+                        <RowDefinition Height="80"></RowDefinition>
+                        <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
                     <GroupBox Grid.Row="0" Style="{StaticResource AduGroupBox}"
-                              Header="料号/客户号" FontWeight="Bold" Margin="0,5"
+                              Header="料号/客户号" FontWeight="Bold" 
                               FontSize="12" Foreground="#fff" BorderThickness="3,0,0,1" BorderBrush="#4ABDA7">
-                        <StackPanel Orientation="Vertical" Margin="10,5,0,0">
-                            <StackPanel Orientation="Horizontal"  Margin="10,5,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.3*"></RowDefinition>
+                                <RowDefinition Height="0.3*"></RowDefinition>
+                                <RowDefinition Height="0.4*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="客户" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <ComboBox    Height="30" Grid.Column="1" Margin="0,5">
                                     <TextBlock></TextBlock>
                                     <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
                                     <ComboBoxItem>2</ComboBoxItem>
                                     <ComboBoxItem>3</ComboBoxItem>
                                 </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Column="0" Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <ComboBox Grid.Column="1"  Height="25" VerticalContentAlignment="Center" Margin="0,5" >
                                     <TextBlock></TextBlock>
                                     <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
                                     <ComboBoxItem>2</ComboBoxItem>
                                     <ComboBoxItem>3</ComboBoxItem>
                                 </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            
-                        </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="1" Background="#29BC6E" Foreground="White" FontWeight="Bold" 
+                                        Command="{Binding StarCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}"
+                                        >开始检测</Button>
+                                <Button Grid.Column="2" Background="#F0F0F0" Foreground="Red"
+                                        Command="{Binding StopCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}"
+                                        >停止检测</Button>
+                            </Grid>
+                        </Grid>
+                       
                     </GroupBox>
                     <GroupBox Grid.Row="1" Style="{StaticResource AduGroupBox}"
-                              Header="料号/客户号" FontWeight="Bold" Margin="0,5"
-                              FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
-                        <StackPanel Orientation="Vertical" Margin="10,5,0,0">
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
+                              Header="包装信息" FontWeight="Bold" 
+                              FontSize="12" Foreground="#fff" BorderThickness="3,0,0,1" BorderBrush="#4ABDA7">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.3*"></RowDefinition>
+                                <RowDefinition Height="0.3*"></RowDefinition>
+                                <RowDefinition Height="0.3*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="包装数量(实际/目标)" FontWeight="Bold" FontSize="12" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="1" Text="112" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="2" Text="/" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="3" Text="114" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
 
-                        </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="包装层数(实际/目标)" FontWeight="Bold" FontSize="12" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="1" Text="112" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="2" Text="/" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="3" Text="114" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="每层数量(实际/目标)" FontWeight="Bold" FontSize="12" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="1" Text="112" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="2" Text="/" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Grid.Column="3" Text="114" FontWeight="Bold" FontSize="16" Foreground="#fff" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+
+                            </Grid>
+
+                        </Grid>
+
                     </GroupBox>
                     <GroupBox Grid.Row="2" Style="{StaticResource AduGroupBox}"
-                              Header="料号/客户号" FontWeight="Bold" Margin="0,5"
-                              FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
-                        <StackPanel Orientation="Vertical" Margin="10,5,0,0">
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="10,10,0,0">
-                                <TextBlock Text="料号" FontWeight="Bold" Foreground="#fff" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                <ComboBox Style="{StaticResource AduComboBox}" Width="120" >
-                                    <TextBlock></TextBlock>
-                                    <ComboBoxItem IsSelected="True">10086</ComboBoxItem>
-                                    <ComboBoxItem>2</ComboBoxItem>
-                                    <ComboBoxItem>3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
+                              Header="工作状态" FontWeight="Bold" 
+                              FontSize="12" Foreground="#fff" BorderThickness="3,0,0,1" BorderBrush="#4ABDA7">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="18" HorizontalAlignment="Center">通信状态</TextBlock>
+                            <Image Grid.Column="1" Source="C:\Users\admin\Downloads\icon\status (2).png" Height="30"></Image>
+                            <TextBlock Grid.Column="2" FontSize="14" HorizontalAlignment="Center">摄像头状态</TextBlock>
+                            <Image Grid.Column="3" Source="C:\Users\admin\Downloads\icon\status (2).png" Height="30"></Image>
+                        </Grid>
 
-                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox  Grid.Row="3"
+                    Style="{StaticResource AduGroupBox}" Header="包装客户端信息" FontWeight="Bold" Margin="5"
+                          FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                <ColumnDefinition  Width="0.6*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock HorizontalAlignment="Center">客户端IP</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">192.168.0.1</TextBlock>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center">连接时间</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">19.4.24 16:40:15</TextBlock>
+                            <Grid Grid.ColumnSpan="2" Grid.Row="3">
+                                <TabControl>
+                                    <TabItem Header="条形码记录" Foreground="White">
+                                        <ListBox Background="Transparent" Foreground="White" Margin="2">
+                                            <ListBoxItem>123123123123</ListBoxItem>
+                                            <ListBoxItem>123123123123</ListBoxItem>
+                                            <ListBoxItem>123123123123</ListBoxItem>
+                                            <ListBoxItem>123123123123</ListBoxItem>
+                                            <ListBoxItem>123123123123</ListBoxItem>
+                                            <ListBoxItem>123123123123</ListBoxItem>
+                                            <ListBoxItem>123123123123</ListBoxItem>
+                                        </ListBox>
+                                    </TabItem>
+                                    <TabItem Header="日志" Foreground="White">
+                                        <ListBox Background="Transparent" Foreground="White" Margin="2">
+                                            <ListBoxItem>2019年4月24日16:44:34</ListBoxItem>
+                                            <ListBoxItem>2019年4月24日16:44:34</ListBoxItem>
+                                            <ListBoxItem>2019年4月24日16:44:34</ListBoxItem>
+                                            <ListBoxItem>2019年4月24日16:44:34</ListBoxItem>
+
+                                        </ListBox>
+                                    </TabItem>
+                                </TabControl>
+                            </Grid>
+                        </Grid>
                     </GroupBox>
                 </Grid>
                 <Grid Grid.Column="1" >
@@ -186,15 +240,60 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="200"></RowDefinition>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Text="照片名称" FontSize="22" Margin="10,0" Foreground="#fff"></TextBlock>
+                    <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                                    BorderThickness="2" BorderBrush="White" Margin="5" CornerRadius="40"
+                                    >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Foreground="#E80F32" FontSize="50" HorizontalAlignment="Center">119</TextBlock>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Foreground="#1979CA" FontSize="60" HorizontalAlignment="Center">120</TextBlock>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                    BorderThickness="2" BorderBrush="White" Margin="5" CornerRadius="40"
+                                    >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <!--<TextBlock Grid.Row="0" Grid.Column="0"  Foreground="#29BC6E" FontSize="80" HorizontalAlignment="Center">OK</TextBlock>-->
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Foreground="#E80F32" FontSize="100" HorizontalAlignment="Center">NOK</TextBlock>
+                                </Grid>
+                            </Border>
+                          
+                        </Grid>
+                    </Grid>
                     <Border Grid.Row="1" Margin="5" BorderBrush="White" BorderThickness="1" CornerRadius="10"  >
-                        <Image Source="F:\Work\003git\DMSkin\Demos\AduDesignDemo\Style\1555917267(1).png" Stretch="UniformToFill" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Margin="5"></Image>
+                        <Image  Stretch="UniformToFill" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Margin="5"></Image>
                     </Border>
                     <Border Grid.Row="2" Margin="3" Background="#20ffffff" CornerRadius="10"  >
-                        <GroupBox Style="{StaticResource AduGroupBox}" Header="详细信息列表" FontWeight="Bold" Margin="5" FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
+                        <GroupBox Style="{StaticResource AduGroupBox}" Header="拍照记录" FontWeight="Bold" Margin="5" FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
                             <DataGrid Margin="3" Style="{StaticResource AduDataGrid}" Height="150" x:Name="AduDataGrids"  GridLinesVisibility="None" BorderThickness="0">
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="时间" Width="*">
+                                    <DataGridTemplateColumn Header="序号" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -204,15 +303,18 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTextColumn Width="*" Header="序号" Binding="{Binding Phone}"></DataGridTextColumn>
-                                    <DataGridTextColumn Width="*" Header="包装号" Binding="{Binding Email}" ></DataGridTextColumn>
-                                    <DataGridTextColumn Width="*" Header="其他" Binding="{Binding Info}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="包装箱号" Binding="{Binding Phone}"></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="层数" Binding="{Binding Email}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="拍摄时间" Binding="{Binding Info}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="照片名称" Binding="{Binding Info}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="状态" Binding="{Binding Info}" ></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </GroupBox>
                     </Border>
                 </Grid>
-                
+        
+
 
             </Grid>
         </Grid>

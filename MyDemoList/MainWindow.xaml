@@ -16,7 +16,7 @@
                 <!--<ResourceDictionary Source="Styles/AduWindow.xaml" />-->
                 <ResourceDictionary Source="Styles/Base.xaml" />
                 <ResourceDictionary Source="Styles/Button.xaml" />
-                <ResourceDictionary Source="Styles/ComboBox.xaml" />
+                <ResourceDictionary Source="Styles/Common.xaml" />
                 <ResourceDictionary Source="Styles/Scrollview.xaml" />
                 <ResourceDictionary Source="Styles/DataGrid.xaml" />
                 <ResourceDictionary Source="Styles/GroupBox.xaml" />
@@ -276,7 +276,7 @@
                 </Setter>
             </Style>
         </ResourceDictionary>
-        
+
     </Window.Resources>
 
     <Border CornerRadius="4" Background="#302C3A" Name="mainback">
@@ -302,22 +302,6 @@
                                         <ColumnDefinition></ColumnDefinition>
                                         <ColumnDefinition></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Button  
-                                        Grid.Column="0"
-                                        attached:Icon.Geometry="{StaticResource Icon_Pause}"
-                                        attached:Icon.Height="30" attached:Icon.Width="60"  
-                                        attached:Corner.Value="10" 
-                                        Margin="5"  Style="{StaticResource AduButton}" Background="Transparent"  Height="30" Width="60" >
-                                    </Button>
-                                    <Button Grid.Column="1"   
-                                            attached:Icon.Geometry="{StaticResource Icon_Player}"
-                                            attached:Icon.Height="30" attached:Icon.Width="60"  
-                                            attached:Corner.Value="10"  
-                                            Margin="5" 
-                                            Background="Transparent"
-                                            Style="{StaticResource AduButton}"  Height="30" Width="60" >
-                                    </Button>
-                                    
                                 </Grid>
                             </StackPanel>
                         </GroupBox>
@@ -343,15 +327,54 @@
                             <RowDefinition Height="0.8*"></RowDefinition>
                             <RowDefinition  Height="0.2*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Orientation="Vertical">
-                            <TextBlock Text="视频名称" FontSize="24" Margin="10,10" Foreground="#fff"></TextBlock>
-                            <Border Margin="0" BorderBrush="White" BorderThickness="1" CornerRadius="20" Height="500" >
+                        <Grid Grid.Row="0" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock   Text="视频名称" FontSize="24" Margin="10,10" Foreground="#fff"></TextBlock>
+                            <Border Grid.Row="1" Margin="0" BorderBrush="White" BorderThickness="1" CornerRadius="20"  >
                                 <vlcPlayer:VlcControl Name="VlcPlayer" Margin="10"></vlcPlayer:VlcControl>
                             </Border>
-                        </StackPanel>
+                        </Grid>
 
-                        <Border Margin="6,6,6,6" Background="#20ffffff" CornerRadius="4"  Grid.Row="1"  >
-                            <GroupBox Style="{StaticResource AduGroupBox}" Header="详细信息列表" FontWeight="Bold" Margin="0,10" FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
+                        <Border Margin="0" Background="#20ffffff"   Grid.Row="1"  >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                    <ColumnDefinition  Width="0.8*"></ColumnDefinition>
+                                    <ColumnDefinition  Width="0.1*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Foreground="White" FontSize="16" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center">00:00</TextBlock>
+                                <Slider Grid.Column="1" VerticalAlignment="Center"></Slider>
+                                <TextBlock Grid.Column="2" Foreground="White" FontSize="16" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center">00:00</TextBlock>
+
+                                <Border Background="#302C3A" Grid.Column="1" Grid.Row="1"
+                                            BorderBrush="AliceBlue" BorderThickness="1" CornerRadius="40">
+                                    <Grid  Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Button  
+                                            Grid.Column="0" Style="{StaticResource imageButtonPrev }" Height="60" Width="40">
+                                        </Button>
+                                        <Button Grid.Column="1" Style="{StaticResource imageButtonPlay}" Height="60"></Button>
+                                        <Button  
+                                            Grid.Column="2" Style="{StaticResource imageButtonNext }" Height="60" Width="40">
+                                        </Button>
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+                            <!--<GroupBox Style="{StaticResource AduGroupBox}" Header="详细信息列表" FontWeight="Bold" Margin="0,10" FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
                                 <DataGrid Margin="3" Style="{StaticResource AduDataGrid}"  x:Name="AduDataGrids"  GridLinesVisibility="None" BorderThickness="0">
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn Header="时间" Width="*">
@@ -369,7 +392,7 @@
                                         <DataGridTextColumn Width="*" Header="其他" Binding="{Binding Info}" ></DataGridTextColumn>
                                     </DataGrid.Columns>
                                 </DataGrid>
-                            </GroupBox>
+                            </GroupBox>-->
                         </Border>
                     </Grid>
                 </ScrollViewer>

@@ -1,0 +1,15 @@
+--≤ø√≈±Ì
+CREATE TABLE SysDepart(
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DepartNo] [varchar](50) NOT NULL,
+	[DepartName] [nvarchar](50) NOT NULL,
+	[IsDelete] [int] NOT NULL,
+	[CreateUser] [varchar](50) NULL,
+	[CreateTime] [datetime] NOT NULL
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO

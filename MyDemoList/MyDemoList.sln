@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zlib.NetCore", "ZipNetCore\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "闲鱼", "..\闲鱼\闲鱼.csproj", "{FCD9ED4F-C280-4D43-BAB1-555194BDD9CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoPro", "..\满箱检测数据表\海康威视拍照\HKVideoPro\VideoPro.csproj", "{69B82A6B-E8D0-4C8D-8C08-9D5536C2A7FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FCD9ED4F-C280-4D43-BAB1-555194BDD9CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCD9ED4F-C280-4D43-BAB1-555194BDD9CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCD9ED4F-C280-4D43-BAB1-555194BDD9CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69B82A6B-E8D0-4C8D-8C08-9D5536C2A7FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69B82A6B-E8D0-4C8D-8C08-9D5536C2A7FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69B82A6B-E8D0-4C8D-8C08-9D5536C2A7FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69B82A6B-E8D0-4C8D-8C08-9D5536C2A7FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

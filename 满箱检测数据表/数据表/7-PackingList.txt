@@ -1,0 +1,19 @@
+--包装记录表
+CREATE TABLE PackingList(
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[CusNo] [varchar](50) NOT NULL,   --客户编号
+	[CusName] [nvarchar](50) NOT NULL, --客户名称
+        [ProductNo] [varchar](50) NOT NULL,  --产品编号
+	[ProductName] [nvarchar](100) NOT NULL,--产品名称
+	[BoxID] [varchar](50) NOT NULL,  --包装箱号
+	[SerialNo] [varchar](100) NOT NULL,  --包装条码
+	[CreateTime] [datetime] NOT NULL, --包装时间
+	[CreateUser] [varchar](50) NULL
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+

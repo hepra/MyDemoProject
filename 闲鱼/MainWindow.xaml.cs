@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using 闲鱼.Model;
+
 using 闲鱼.ViewModel;
 
 namespace 闲鱼
@@ -27,6 +28,7 @@ namespace 闲鱼
         {
             InitializeComponent();
             this.DataContext = new OverFlowCheckViewModel();
+
             string date = System.DateTime.Now.ToLocalTime().ToString("yy-MM-dd hh:mm-ss");
             ObservableCollection<DMCode> CodeList = new ObservableCollection<DMCode> {
                     new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}

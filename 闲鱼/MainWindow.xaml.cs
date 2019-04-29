@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,7 @@ namespace 闲鱼
     /// </summary>
     public partial class MainWindow : Window
     {
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -41,11 +43,14 @@ namespace 闲鱼
                     ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
                 };
             AduDataGrids.ItemsSource = CodeList;
+         
         }
 
+      
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
     }
 }

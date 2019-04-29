@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\ConfigureHelper.cs" />
+    <Compile Include="Common\TCPHelper.cs" />
     <Compile Include="DbService\DBbase.cs" />
     <Compile Include="Model\DMCode.cs" />
     <Compile Include="MVVM\DelegateCommand.cs" />

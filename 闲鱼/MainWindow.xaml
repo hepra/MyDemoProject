@@ -112,7 +112,7 @@
                                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Button Grid.Column="1" Background="#29BC6E" Foreground="White" FontWeight="Bold" 
-                                        Command="{Binding StarCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}"
+                                        Command="{Binding StarCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}" 
                                         >开始检测</Button>
                                 <Button Grid.Column="2" Background="#F0F0F0" Foreground="Red"
                                         Command="{Binding StopCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}"
@@ -204,7 +204,7 @@
                                 <ColumnDefinition  Width="0.6*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <TextBlock HorizontalAlignment="Center">客户端IP</TextBlock>
-                            <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">192.168.0.1</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding IP}"></TextBlock>
                             <TextBlock Grid.Row="1" HorizontalAlignment="Center">连接时间</TextBlock>
                             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">19.4.24 16:40:15</TextBlock>
                             <Grid Grid.ColumnSpan="2" Grid.Row="3">

@@ -15,6 +15,43 @@ namespace 闲鱼.Common
             public Queue<string> Message = new Queue<string>();
             public bool Is_Health = true;
         }
+        static class COMMANDER
+        {
+            public static string Recvive = "< STX >" +
+                " UNIT_PROGRESS, " +
+                "C10_PACK," +
+                "1," +
+                "20190102143202128," +
+                "<UnitProgress tokens = \"4\"" +
+                " box_id=\"C10_190304001\" " +
+                "mat_in=\"06.9343-2206.03\" " +
+                "qty=\"1\" " +
+                "/>" +
+                "<ETX>";
+            public static string GetBoxId(string message)
+            {
+                return "";
+            }
+            public static string GetMaterialIndex(string message)
+            {
+                return "";
+            }
+            public static string SendSuccess =$"<STX>" +
+                "UNIT_PROGRESS, " +
+                "C10_PACK," +
+                "1, " +
+                "DATETIME" +
+                "ACK" +
+                "<ETX>";
+            public static string SendFailed= "<STX>" +
+              "UNIT_PROGRESS, " +
+              "C10_PACK," +
+              "1, " +
+              "DATETIME," +
+              "NACK" +
+              "<ETX>";
+
+        }
         #region   异步TCP服务
         public class asyncTcpSever
         {

@@ -17,9 +17,7 @@ namespace VideoPro
 	{
 		private Thread _Thread = null;
 
-		private IScheduler scheduler;
 
-		private IContainer components = null;
 
 		private Button button1;
 
@@ -60,35 +58,7 @@ namespace VideoPro
 			}
 		}
 
-		private unsafe void DecodeAllFramesToImages(string url)
-		{
-			using (VideoStreamDecoder vsd = new VideoStreamDecoder(url))
-			{
-				IReadOnlyDictionary<string, string> info = vsd.GetContextInfo();
-				Size sourceSize = vsd.FrameSize;
-				AVPixelFormat sourcePixelFormat = vsd.PixelFormat;
-				Size destinationSize = sourceSize;
-				AVPixelFormat destinationPixelFormat = AVPixelFormat.AV_PIX_FMT_BGR24;
-				using (VideoFrameConverter vfc = new VideoFrameConverter(sourceSize, sourcePixelFormat, destinationSize, destinationPixelFormat))
-				{
-					int frameNumber = 0;
-					AVFrame frame = default(AVFrame);
-					vsd.TryDecodeNextFrame(out frame);
-					AVFrame convertedFrame = vfc.Convert(frame);
-					using (Bitmap bitmap = new Bitmap(convertedFrame.width, convertedFrame.height, convertedFrame.linesize[0u], PixelFormat.Format24bppRgb, (IntPtr)(void*)convertedFrame.data[0u]))
-					{
-						Graphics g = this.playwnd1.CreateGraphics();
-						g.SmoothingMode = SmoothingMode.HighSpeed;
-						Graphics graphics = g;
-						Bitmap image = bitmap;
-						Size size = this.playwnd1.Size;
-						int width = size.Width;
-						size = this.playwnd1.Size;
-						graphics.DrawImage(image, 0, 0, width, size.Height);
-					}
-				}
-			}
-		}
+		
 
 		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{

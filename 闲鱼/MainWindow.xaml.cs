@@ -25,24 +25,24 @@ namespace 闲鱼
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+        OverFlowCheckViewModel viewModel = new OverFlowCheckViewModel();
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new OverFlowCheckViewModel();
+            this.DataContext = viewModel;
 
-            string date = System.DateTime.Now.ToLocalTime().ToString("yy-MM-dd hh:mm-ss");
-            ObservableCollection<DMCode> CodeList = new ObservableCollection<DMCode> {
-                    new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-                    ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921***",Info="追求极致"}
-                    ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-                    ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921****",Info="追求极致"}
-                     ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921***",Info="追求极致，"}
-                    ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921****",Info="追求极致"}
-                    ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-                    ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-                };
-            AduDataGrids.ItemsSource = CodeList;
+         //   string date = System.DateTime.Now.ToLocalTime().ToString("yy-MM-dd hh:mm-ss");
+            //List<DMCode> CodeList = new List<DMCode> {
+            //        new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
+            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921***",Info="追求极致"}
+            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
+            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921****",Info="追求极致"}
+            //         ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921***",Info="追求极致，"}
+            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921****",Info="追求极致"}
+            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
+            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
+            //    };
+           AduDataGrids.ItemsSource = (this.DataContext as OverFlowCheckViewModel).CodeList;
          
         }
 
@@ -51,6 +51,24 @@ namespace 闲鱼
         {
             this.Close();
         }
-
+        void recieve_message(byte[] data)
+        {
+            System.Windows.MessageBox.Show(data.ToString());
+        }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            //if (viewModel.tempSever.clientList.Count < 1)
+            //{
+            //    Common.TCPHelper.asyncTcpClient client = new Common.TCPHelper.asyncTcpClient(recieve_message, 1024);
+            //    client.连接服务器("192.168.20.102", 10086);
+            //    ClientWindow clientWindow = new ClientWindow(client);
+            //    clientWindow.Show();
+            //    AduDataGrids.DataContext = (this.DataContext as OverFlowCheckViewModel).CodeList;
+            //}
+            //else
+            //{
+            //    return;
+            //}
+        }
     }
 }

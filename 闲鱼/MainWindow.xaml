@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:闲鱼"
-        ResizeMode="NoResize"
+        ResizeMode="CanResizeWithGrip"
         WindowStyle="None"
         mc:Ignorable="d"
         x:Name="OverFlowCheckMainWindow"
@@ -58,15 +58,15 @@
             </Grid>
 
             <!--body-->
-            <Grid x:Name="gridBody" Grid.Row="1">
+            <Grid x:Name="gridBody" Grid.Row="1" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="260"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition MinWidth="260" Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.8*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="180"></RowDefinition>
-                        <RowDefinition Height="180"></RowDefinition>
+                        <RowDefinition Height="120"></RowDefinition>
                         <RowDefinition Height="80"></RowDefinition>
                         <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
@@ -105,14 +105,14 @@
                                     <ComboBoxItem>3</ComboBoxItem>
                                 </ComboBox>
                             </Grid>
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="2" Height="56" VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Button Grid.Column="1" Background="#29BC6E" Foreground="White" FontWeight="Bold" 
-                                        Command="{Binding StarCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}" 
+                                        Command="{Binding StarCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}" Click="Button_Click_1" 
                                         >开始检测</Button>
                                 <Button Grid.Column="2" Background="#F0F0F0" Foreground="Red"
                                         Command="{Binding StopCheck}" CommandParameter="{Binding ElementName=OverFlowCheckMainWindow}"
@@ -200,24 +200,18 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.4*"></ColumnDefinition>
-                                <ColumnDefinition  Width="0.6*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                                <ColumnDefinition  Width="0.4*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <TextBlock HorizontalAlignment="Center">客户端IP</TextBlock>
-                            <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding IP}"></TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Text="{Binding IP}"></TextBlock>
                             <TextBlock Grid.Row="1" HorizontalAlignment="Center">连接时间</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">19.4.24 16:40:15</TextBlock>
-                            <Grid Grid.ColumnSpan="2" Grid.Row="3">
+                            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Text="{Binding ConnectDate}"></TextBlock>
+                            <Grid Grid.ColumnSpan="3" Grid.Row="3">
                                 <TabControl>
                                     <TabItem Header="条形码记录" Foreground="White">
-                                        <ListBox Background="Transparent" Foreground="White" Margin="2">
-                                            <ListBoxItem>123123123123</ListBoxItem>
-                                            <ListBoxItem>123123123123</ListBoxItem>
-                                            <ListBoxItem>123123123123</ListBoxItem>
-                                            <ListBoxItem>123123123123</ListBoxItem>
-                                            <ListBoxItem>123123123123</ListBoxItem>
-                                            <ListBoxItem>123123123123</ListBoxItem>
-                                            <ListBoxItem>123123123123</ListBoxItem>
+                                        <ListBox Background="Transparent" Foreground="White" Margin="2" ItemsSource="{Binding CodeList}">
                                         </ListBox>
                                     </TabItem>
                                     <TabItem Header="日志" Foreground="White">
@@ -291,23 +285,23 @@
                     </Border>
                     <Border Grid.Row="2" Margin="3" Background="#20ffffff" CornerRadius="10"  >
                         <GroupBox Style="{StaticResource AduGroupBox}" Header="拍照记录" FontWeight="Bold" Margin="5" FontSize="12" Foreground="#fff" BorderThickness="3,0,0,0" BorderBrush="#4ABDA7">
-                            <DataGrid Margin="3" Style="{StaticResource AduDataGrid}" Height="150" x:Name="AduDataGrids"  GridLinesVisibility="None" BorderThickness="0">
+                            <DataGrid Margin="3" Style="{StaticResource AduDataGrid}" DataContext="{Binding CodeList}" Height="150" x:Name="AduDataGrids"  GridLinesVisibility="None" BorderThickness="0">
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Header="序号" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox ></CheckBox>
-                                                    <TextBlock Text="{Binding CodeName}" Foreground="#fff" VerticalAlignment="Center"></TextBlock>
+                                                    <TextBlock Text="{Binding CodeName,Mode=TwoWay}" Foreground="#fff" VerticalAlignment="Center"></TextBlock>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTextColumn Width="*" Header="包装箱号" Binding="{Binding Phone}"></DataGridTextColumn>
-                                    <DataGridTextColumn Width="*" Header="层数" Binding="{Binding Email}" ></DataGridTextColumn>
-                                    <DataGridTextColumn Width="*" Header="拍摄时间" Binding="{Binding Info}" ></DataGridTextColumn>
-                                    <DataGridTextColumn Width="*" Header="照片名称" Binding="{Binding Info}" ></DataGridTextColumn>
-                                    <DataGridTextColumn Width="*" Header="状态" Binding="{Binding Info}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="包装箱号" Binding="{Binding Phone,Mode=TwoWay}"></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="层数" Binding="{Binding Email,Mode=TwoWay}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="拍摄时间" Binding="{Binding Info,Mode=TwoWay}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="照片名称" Binding="{Binding Info,Mode=TwoWay}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Width="*" Header="状态" Binding="{Binding Info,Mode=TwoWay}" ></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </GroupBox>

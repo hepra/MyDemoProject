@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -19,48 +21,52 @@ namespace 闲鱼.ViewModel
     public class OverFlowCheckViewModel:ViewModelBase
     {
         #region 初始化
-        Common.TCPHelper.asyncTcpSever tempSever;
+       public  Common.TCPHelper.asyncTcpSever tempSever;
         public OverFlowCheckViewModel()
         {
             tempSever = new Common.TCPHelper.asyncTcpSever("192.168.20.102", 10086, 200);
+            tempSever.Recieve_Message_BufferSize = 1024;
             Thread thSeverListen = new Thread(Listen);
             thSeverListen.IsBackground = true;
             thSeverListen.Start();
-
+            tempSever.Message_receive = sever_recieve_message;
             FFmpegBinariesHelper.RegisterFFmpegBinaries();
-
-            SetupLogging();
-
+          //  SetupLogging();
         }
-
-        private unsafe static void SetupLogging()
+      public  void sever_recieve_message(byte[] data)
         {
-            ffmpeg.av_log_set_level(40);
-            av_log_set_callback_callback logCallback = delegate (void* p0, int level, string format, byte* vl)
-            {
-                if (level <= ffmpeg.av_log_get_level())
-                {
-                    int num = 1024;
-                    byte* ptr = stackalloc byte[(int)(uint)num];
-                    int num2 = 1;
-                    ffmpeg.av_log_format_line(p0, level, format, vl, ptr, num, &num2);
-                    string value = System.Runtime.InteropServices.Marshal.PtrToStringAnsi((IntPtr)(void*)ptr);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(value);
-                    Console.ResetColor();
-                }
-            };
-            ffmpeg.av_log_set_callback(logCallback);
+             string message = Encoding.ASCII.GetString(data);
+            Common.TCPHelper.COMMANDER cmd = new Common.TCPHelper.COMMANDER(message);
+            messageList.Add(cmd);
+            DMCode temp = new DMCode();
+            temp.CodeID = cmd.BoxId;
+            temp.CodeName = cmd.CommandType;
+            temp.Email = cmd.PackagePosition;
+            temp.Info = cmd.PackagePositionCount;
+            temp.Phone = cmd.DATETIME;
+            severmeeage = cmd.GenerateSendSuccessMessage();
+            byte[] data1 = Encoding.ASCII.GetBytes(severmeeage);
+           // tempSever.clientList[0].BeginSend(data1,0,data1.Length,SocketFlags.None, new AsyncCallback(Message_Send), tempSever.clientList[0]);
+            CodeList.Add(temp);
         }
-
-
+        public string severmeeage { get; set; }
+        void Message_Send(IAsyncResult ar)
+        {
+            var socket = ar.AsyncState as Socket;
+        }
+        private void ClientAccepted(IAsyncResult ar)
+        {
+          
+        }
         void Listen()
         {
             while (true)
             {
-                if (tempSever.client!=null)
+                if (tempSever.clientList.Count >0)
                 {
-                   IP = tempSever.client.RemoteEndPoint.ToString();
+                   IP = tempSever.clientList[0].RemoteEndPoint.ToString();
+                    Pendpoint = tempSever.clientList[0].RemoteEndPoint;
+                    ConnectDate = System.DateTime.Now.ToString("yy-MM-dd HH:mm:ss");
                     return;
                 }
                 else
@@ -74,11 +80,11 @@ namespace 闲鱼.ViewModel
         #endregion
 
         #region 属性
-        private ObservableCollection<DMCode> _CodeList;
+        private List<DMCode> _CodeList = new List<DMCode>();
         /// <summary>
         /// CodeList
         /// </summary>
-        public ObservableCollection<DMCode> CodeList
+        public List<DMCode> CodeList
         {
             get { return _CodeList; }
             set
@@ -88,6 +94,7 @@ namespace 闲鱼.ViewModel
             }
         }
 
+        public List<Common.TCPHelper.COMMANDER> messageList = new List<Common.TCPHelper.COMMANDER>();
         private string _IP;
         public string IP
         {
@@ -98,7 +105,29 @@ namespace 闲鱼.ViewModel
                 OnPropertyChanged(nameof(IP));
             }
         }
+        private System.Net.EndPoint _IPendpoint;
+        public System.Net.EndPoint Pendpoint
+        {
+            get { return _IPendpoint; }
+            set
+            {
+                _IPendpoint = value;
+                OnPropertyChanged(nameof(Pendpoint));
+            }
+        }
 
+        private string _ConnectDate;
+        public string ConnectDate
+        {
+            get { return _ConnectDate; }
+            set
+            {
+                _ConnectDate = value;
+                OnPropertyChanged(nameof(ConnectDate));
+            }
+        }
+
+        
 
         private string _SeverIP;
         public string SeverIP
@@ -110,7 +139,6 @@ namespace 闲鱼.ViewModel
                 OnPropertyChanged(nameof(SeverIP));
             }
         }
-
 
         private System.Windows.Media.ImageSource _Image;
         public System.Windows.Media.ImageSource Image
@@ -158,23 +186,32 @@ namespace 闲鱼.ViewModel
         /// </summary>    
         public ICommand StarCheck => new DelegateCommand(obj =>
         {
-            Common.TCPHelper.asyncTcpClient client = new Common.TCPHelper.asyncTcpClient(recieve_message,1024);
-            client.连接服务器("192.168.20.102", 10086);
-
-            Init();
-            if (this.scheduler == null)
+            if(tempSever.clientList.Count<1)
             {
-                this.Init();
-            }
-            else if (this.scheduler.IsStarted)
-            {
-                this.scheduler = null;
+                Common.TCPHelper.asyncTcpClient client = new Common.TCPHelper.asyncTcpClient(recieve_message, 1024);
+                client.连接服务器("192.168.20.102", 10086);
+                ClientWindow clientWindow = new ClientWindow(client);
+                clientWindow.Show();
             }
             else
             {
-                this.scheduler.Shutdown();
+                return;
             }
-            DecodeAllFramesToImages(IP);
+            
+            //Init();
+            //if (this.scheduler == null)
+            //{
+            //    this.Init();
+            //}
+            //else if (this.scheduler.IsStarted)
+            //{
+            //    this.scheduler = null;
+            //}
+            //else
+            //{
+            //    this.scheduler.Shutdown();
+            //}
+            //DecodeAllFramesToImages(IP);
         });
         void recieve_message(byte[] data)
         {
@@ -199,7 +236,25 @@ namespace 闲鱼.ViewModel
         #endregion
 
         #region 方法
-
+        private unsafe static void SetupLogging()
+        {
+            //ffmpeg.av_log_set_level(40);
+            //av_log_set_callback_callback logCallback = delegate (void* p0, int level, string format, byte* vl)
+            //{
+            //    if (level <= ffmpeg.av_log_get_level())
+            //    {
+            //        int num = 1024;
+            //        byte* ptr = stackalloc byte[(int)(uint)num];
+            //        int num2 = 1;
+            //        ffmpeg.av_log_format_line(p0, level, format, vl, ptr, num, &num2);
+            //        string value = System.Runtime.InteropServices.Marshal.PtrToStringAnsi((IntPtr)(void*)ptr);
+            //        Console.ForegroundColor = ConsoleColor.Yellow;
+            //        Console.Write(value);
+            //        Console.ResetColor();
+            //    }
+            //};
+            //ffmpeg.av_log_set_callback(logCallback);
+        }
         private unsafe void DecodeAllFramesToImages(string url)
         {
             using (VideoStreamDecoder vsd = new VideoStreamDecoder(url))

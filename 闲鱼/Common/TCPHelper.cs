@@ -15,42 +15,52 @@ namespace 闲鱼.Common
             public Queue<string> Message = new Queue<string>();
             public bool Is_Health = true;
         }
-        static class COMMANDER
+      public  class COMMANDER
         {
-            public static string Recvive = "< STX >" +
-                " UNIT_PROGRESS, " +
-                "C10_PACK," +
-                "1," +
-                "20190102143202128," +
-                "<UnitProgress tokens = \"4\"" +
-                " box_id=\"C10_190304001\" " +
-                "mat_in=\"06.9343-2206.03\" " +
-                "qty=\"1\" " +
-                "/>" +
-                "<ETX>";
-            public static string GetBoxId(string message)
+            public string BoxId { get; set; }
+            public string MaterialIndex { get; set; }
+            public  string PackagePosition { get; set; }
+            public string PackagePositionCount { get; set; }
+            public string DATETIME { get; set; }
+            public string CommandType { get; set; }
+            public string token { get; set; }
+            public string RecviveMessage { get; set; }
+            public string GenerateSendSuccessMessage()
             {
-                return "";
-            }
-            public static string GetMaterialIndex(string message)
-            {
-                return "";
-            }
-            public static string SendSuccess =$"<STX>" +
-                "UNIT_PROGRESS, " +
-                "C10_PACK," +
-                "1, " +
-                "DATETIME" +
+                return $"<STX>" +
+                $"{CommandType}," +
+               $"{PackagePosition}," +
+                $"{PackagePositionCount}," +
+                $"{DATETIME}," +
                 "ACK" +
                 "<ETX>";
-            public static string SendFailed= "<STX>" +
-              "UNIT_PROGRESS, " +
-              "C10_PACK," +
-              "1, " +
-              "DATETIME," +
-              "NACK" +
-              "<ETX>";
+            }
+            public string GenerateSendFailedMessage()
+            {
+                return $"<STX>" +
+                "UNIT_PROGRESS," +
+               $"{PackagePosition}," +
+                $"{PackagePositionCount}," +
+                $"{DATETIME}," +
+                "NACK" +
+                "<ETX>";
+            }
+                //<STX>UNIT_PROGRESS,C10_PACK,1,20190102143202128,<UnitProgress tokens="4" box_id="C10_190304001" mat_in="06.9343-2206.03" qty="1"/><ETX>
 
+            public  COMMANDER(string Message)
+            {
+                this.RecviveMessage = Message;
+                string temp = Message.Replace("<STX>","").Replace("/></STX>","");
+                string[] units = temp.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    this.CommandType = units[0];
+                    this.PackagePosition = units[1];
+                    this.PackagePositionCount = units[2];
+                    this.DATETIME = units[3];
+                    string[] UnitProgress = units[4].Replace("<", "").Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                this.token = UnitProgress[1].Replace("tokens=", "").Replace("\"", "");
+                this.BoxId = UnitProgress[2].Replace("box_id=", "").Replace("\"", "");
+                this.MaterialIndex = UnitProgress[3].Replace("\"", "").Replace("mat_in=", "");
+            }
         }
         #region   异步TCP服务
         public class asyncTcpSever
@@ -58,9 +68,11 @@ namespace 闲鱼.Common
 
             public Socket socket_Sever { get; set; }
             public delegate void recieve_message(byte[] data);
+            public delegate void send_message(Socket sever);
             public recieve_message Message_receive { get; set; }
+             public   send_message Message_Send { get; set; }
             public TCPConnectState tcpState = new TCPConnectState();
-            public Socket client;
+            public List<Socket> clientList = new List<Socket>();
             public bool is_data_recvive_end = false;
             byte[] buffer;
             public int Recieve_Message_BufferSize { get; set; }
@@ -84,11 +96,12 @@ namespace 闲鱼.Common
                 }
             }
 
-            public void Send(byte[] msg, EndPoint remotePoint)
+            public void Send(string msg)
             {
                 try
                 {
-                    socket_Sever.SendTo(msg, remotePoint);
+                    byte[] data = Encoding.ASCII.GetBytes(msg);
+                    socket_Sever.Send(data);
                 }
                 catch (Exception e)
                 {
@@ -100,7 +113,9 @@ namespace 闲鱼.Common
             private void ReceiveMessage(IAsyncResult ar)
             {
                 var socket = ar.AsyncState as Socket;
-                var length = socket.EndReceive(ar);
+                //Message_Send(socket);
+                socket.EndReceive(ar);
+                var length = socket.Available;
                 if (!is_data_recvive_end)
                 {
                     Message_receive(buffer);
@@ -109,8 +124,9 @@ namespace 闲鱼.Common
                 }
                 else
                 {
-                    client.Disconnect(false);
+                    //client.Disconnect(false);
                     socket.Close();
+                    clientList.Remove(socket);
                     tcpState.Message.Enqueue("传输已终止");
                     tcpState.Is_Health = true;
                 }
@@ -118,11 +134,12 @@ namespace 闲鱼.Common
             private void ClientAccepted(IAsyncResult ar)
             {
                 var socket = ar.AsyncState as Socket;
-                client = socket.EndAccept(ar);
+               var  client = socket.EndAccept(ar);
                 is_data_recvive_end = false;
                 buffer = new byte[Recieve_Message_BufferSize];
                 client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                 socket.BeginAccept(new AsyncCallback(ClientAccepted), socket_Sever);
+                clientList.Add(client);
             }
 
         }
@@ -232,7 +249,7 @@ namespace 闲鱼.Common
             }
             public void Send(string data)
             {
-                byte[] temp = Encoding.UTF8.GetBytes(data);
+                byte[] temp = Encoding.ASCII.GetBytes(data);
                 if (client == null)
                 {
                     tcpState.Message.Enqueue("连接中断,命令无法送达,请重新连接");

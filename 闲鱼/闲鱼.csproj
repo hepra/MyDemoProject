@@ -36,6 +36,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>libs\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>libs\Common.Logging.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\MyDemoList\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
     </Reference>
@@ -77,22 +85,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClientWindow.xaml.cs">
+      <DependentUpon>ClientWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\ConfigureHelper.cs" />
     <Compile Include="Common\TCPHelper.cs" />
     <Compile Include="DbService\DBbase.cs" />
     <Compile Include="Model\DMCode.cs" />
     <Compile Include="MVVM\DelegateCommand.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />
-    <Compile Include="OverFlowCheckModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OverFlowCheckModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OverFlowCheckModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OverFlowCheckModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="VideoPro.Properties\Resources.cs" />
     <Compile Include="VideoPro.Properties\Settings.cs" />
     <Compile Include="VideoPro\FFmpegBinariesHelper.cs" />
@@ -102,6 +103,10 @@
     <Compile Include="VideoPro\VideoFrameConverter.cs" />
     <Compile Include="VideoPro\VideoStreamDecoder.cs" />
     <Compile Include="ViewModel\OverFlowCheckViewModel.cs" />
+    <Page Include="ClientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -183,19 +188,17 @@
     <Content Include="libs\avutil-56.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="libs\Common.Logging.Core.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libs\Common.Logging.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="libs\FFmpeg.AutoGen.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="libs\Quartz.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="OverFlowCheckModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OverFlowCheckModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="OverFlowCheckModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OverFlowCheckModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

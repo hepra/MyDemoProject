@@ -5,7 +5,7 @@ namespace 闲鱼.Model
     {
         public bool IsChecked { get; set; }
         public string CodeType { get; set; }
-        public int CodeID { get; set; }
+        public string CodeID { get; set; }
         public string CodeName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

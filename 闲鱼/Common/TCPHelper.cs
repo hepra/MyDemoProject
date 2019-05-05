@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace 闲鱼.Common
@@ -49,17 +50,24 @@ namespace 闲鱼.Common
 
             public  COMMANDER(string Message)
             {
-                this.RecviveMessage = Message;
-                string temp = Message.Replace("<STX>","").Replace("/></STX>","");
-                string[] units = temp.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                try
+                {
+                    this.RecviveMessage = Message;
+                    string temp = Message.Replace("<STX>", "").Replace("/></STX>", "");
+                    string[] units = temp.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                     this.CommandType = units[0];
                     this.PackagePosition = units[1];
                     this.PackagePositionCount = units[2];
                     this.DATETIME = units[3];
                     string[] UnitProgress = units[4].Replace("<", "").Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                this.token = UnitProgress[1].Replace("tokens=", "").Replace("\"", "");
-                this.BoxId = UnitProgress[2].Replace("box_id=", "").Replace("\"", "");
-                this.MaterialIndex = UnitProgress[3].Replace("\"", "").Replace("mat_in=", "");
+                    this.token = UnitProgress[1].Replace("tokens=", "").Replace("\"", "");
+                    this.BoxId = UnitProgress[2].Replace("box_id=", "").Replace("\"", "");
+                    this.MaterialIndex = UnitProgress[3].Replace("\"", "").Replace("mat_in=", "");
+                }
+              catch
+                {
+
+                }
             }
         }
         #region   异步TCP服务
@@ -96,13 +104,16 @@ namespace 闲鱼.Common
                 }
             }
 
-            public void Send(string msg)
+            public void Send(Socket client,string msg)
             {
                 try
                 {
                     byte[] data = Encoding.ASCII.GetBytes(msg);
-                    socket_Sever.Send(data);
-                }
+                    client.BeginSend(data, 0, data.Length, SocketFlags.None, asyncResult =>
+                     {
+                             int len = client.EndSend(asyncResult);
+                     }, null);
+                } 
                 catch (Exception e)
                 {
                     tcpState.Message.Enqueue("消息发送失败:" + e.Message);
@@ -133,8 +144,8 @@ namespace 闲鱼.Common
             }
             private void ClientAccepted(IAsyncResult ar)
             {
-                var socket = ar.AsyncState as Socket;
-               var  client = socket.EndAccept(ar);
+                Socket socket = ar.AsyncState as Socket;
+                Socket client = socket.EndAccept(ar);
                 is_data_recvive_end = false;
                 buffer = new byte[Recieve_Message_BufferSize];
                 client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
@@ -197,6 +208,9 @@ namespace 闲鱼.Common
                     client.ReceiveTimeout = 10;
                     IPEndPoint remoteIP = new IPEndPoint(IPAddress.Parse(服务器IP), 服务器端口);
                     client.BeginConnect(remoteIP, new AsyncCallback(ConnectCallback), this.client);
+                  Thread  th_socket = new Thread(MonitorSocker);//监听线程
+                    th_socket.IsBackground = true;
+                    th_socket.Start(remoteIP);
                 }
                 catch (Exception e)
                 {
@@ -205,7 +219,22 @@ namespace 闲鱼.Common
                     tcpState.Message.Enqueue("连接失败" + 服务器IP + ":" + 服务器端口 + "请重新连接! 错误消息:" + e.Message);
                     tcpState.Is_Health = false;
                 }
-
+            }
+            void MonitorSocker(object ip)
+            {
+                while (true)
+                {
+                    if (client == null)
+                    {
+                        client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    }
+                    if (client.Connected!=true)//通过错误码判断
+                    {
+                        var remoteIP = ip as IPEndPoint;
+                         client.BeginConnect(remoteIP, new AsyncCallback(ConnectCallback), this.client);
+                    }
+                    Thread.Sleep(1000);
+                }
             }
             void ConnectCallback(IAsyncResult ar)
             {

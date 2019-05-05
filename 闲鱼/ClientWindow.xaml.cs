@@ -7,21 +7,29 @@ namespace 闲鱼
     /// </summary>
     public partial class ClientWindow : Window
     {
-        Common.TCPHelper.asyncTcpClient  client;
-        public ClientWindow(Common.TCPHelper.asyncTcpClient cl)
+        SimpleTCP.SimpleTcpClient client;
+        SimpleTCP.SimpleTcpServer s;
+        public ClientWindow(SimpleTCP.SimpleTcpClient cl, SimpleTCP.SimpleTcpServer sever)
         {
             InitializeComponent();
             client = cl;
-            client.Message_receive = getData;
-        }
-        void getData(byte[] data)
-        {
-            tbRecvive.Text = Encoding.UTF8.GetString(data);
+            s = sever;
+            client.DataReceived += (sender,msg)=> {
+                this.Dispatcher.Invoke(new System.Action(() =>
+                {
+                    tbRecvive.Text = Encoding.UTF8.GetString(msg.Data);
+                }));
+                
+            };
         }
        
         private void BtnSend_Click(object sender, RoutedEventArgs e)
         {
-            client.Send(tbMessage.Text);
+            client.Write(tbMessage.Text);
+        }
+
+        private void BtnSeverSend_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

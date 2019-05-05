@@ -21,69 +21,37 @@ namespace 闲鱼.ViewModel
     public class OverFlowCheckViewModel:ViewModelBase
     {
         #region 初始化
-       public  Common.TCPHelper.asyncTcpSever tempSever;
+        SimpleTCP.SimpleTcpServer tempSever;
         public OverFlowCheckViewModel()
         {
-            tempSever = new Common.TCPHelper.asyncTcpSever("192.168.20.102", 10086, 200);
-            tempSever.Recieve_Message_BufferSize = 1024;
-            Thread thSeverListen = new Thread(Listen);
-            thSeverListen.IsBackground = true;
-            thSeverListen.Start();
-            tempSever.Message_receive = sever_recieve_message;
+            tempSever = new SimpleTCP.SimpleTcpServer().Start(10086);
+            tempSever.DataReceived += (sender, msg) =>
+            {
+                IP = msg.TcpClient.Client.LocalEndPoint.ToString();
+                string message = Encoding.ASCII.GetString(msg.Data);
+                Common.TCPHelper.COMMANDER cmd = new Common.TCPHelper.COMMANDER(message);
+                messageList.Add(cmd);
+                DMCode temp = new DMCode();
+                temp.CodeID = cmd.BoxId;
+                temp.CodeName = cmd.CommandType;
+                temp.Email = cmd.PackagePosition;
+                temp.Info = cmd.PackagePositionCount;
+                temp.Phone = cmd.DATETIME;
+                severmeeage = cmd.GenerateSendSuccessMessage();
+                byte[] data1 = Encoding.ASCII.GetBytes(severmeeage);
+                //  tempSever.Send(tempSever.clientList[0],severmeeage);
+                // tempSever.clientList[0].BeginSend(data1,0,data1.Length,SocketFlags.None, new AsyncCallback(Message_Send), tempSever.clientList[0]);
+                CodeList.Add(temp);
+                msg.Reply(severmeeage);
+            };
             FFmpegBinariesHelper.RegisterFFmpegBinaries();
           //  SetupLogging();
         }
-      public  void sever_recieve_message(byte[] data)
-        {
-             string message = Encoding.ASCII.GetString(data);
-            Common.TCPHelper.COMMANDER cmd = new Common.TCPHelper.COMMANDER(message);
-            messageList.Add(cmd);
-            DMCode temp = new DMCode();
-            temp.CodeID = cmd.BoxId;
-            temp.CodeName = cmd.CommandType;
-            temp.Email = cmd.PackagePosition;
-            temp.Info = cmd.PackagePositionCount;
-            temp.Phone = cmd.DATETIME;
-            severmeeage = cmd.GenerateSendSuccessMessage();
-            byte[] data1 = Encoding.ASCII.GetBytes(severmeeage);
-           // tempSever.clientList[0].BeginSend(data1,0,data1.Length,SocketFlags.None, new AsyncCallback(Message_Send), tempSever.clientList[0]);
-            CodeList.Add(temp);
-        }
         public string severmeeage { get; set; }
-        void Message_Send(IAsyncResult ar)
-        {
-            var socket = ar.AsyncState as Socket;
-        }
-        private void ClientAccepted(IAsyncResult ar)
-        {
-          
-        }
-        void Listen()
-        {
-            while (true)
-            {
-                if (tempSever.clientList.Count >0)
-                {
-                   IP = tempSever.clientList[0].RemoteEndPoint.ToString();
-                    Pendpoint = tempSever.clientList[0].RemoteEndPoint;
-                    ConnectDate = System.DateTime.Now.ToString("yy-MM-dd HH:mm:ss");
-                    return;
-                }
-                else
-                {
-                    Thread.Sleep(1000);
-                }
-
-            }
-
-        }
         #endregion
 
         #region 属性
         private List<DMCode> _CodeList = new List<DMCode>();
-        /// <summary>
-        /// CodeList
-        /// </summary>
         public List<DMCode> CodeList
         {
             get { return _CodeList; }
@@ -186,11 +154,10 @@ namespace 闲鱼.ViewModel
         /// </summary>    
         public ICommand StarCheck => new DelegateCommand(obj =>
         {
-            if(tempSever.clientList.Count<1)
+            if(tempSever.IsStarted)
             {
-                Common.TCPHelper.asyncTcpClient client = new Common.TCPHelper.asyncTcpClient(recieve_message, 1024);
-                client.连接服务器("192.168.20.102", 10086);
-                ClientWindow clientWindow = new ClientWindow(client);
+                SimpleTCP.SimpleTcpClient client = new SimpleTCP.SimpleTcpClient().Connect("192.168.6.90", 10086);
+                ClientWindow clientWindow = new ClientWindow(client,tempSever);
                 clientWindow.Show();
             }
             else

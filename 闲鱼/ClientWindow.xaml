@@ -1,0 +1,23 @@
+﻿<Window x:Class="闲鱼.ClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:闲鱼"
+        mc:Ignorable="d"
+        Title="ClientWindow" Height="200" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <TextBox Name="tbMessage" TextWrapping="Wrap">
+            &lt;STX>UNIT_PROGRESS,C10_PACK,1,20190102143202128,&lt;UnitProgress tokens="4" box_id="C10_190304001" mat_in="06.9343-2206.03" qty="1"/>&lt;ETX>
+        </TextBox>
+        <Button Name="btnSend" Grid.Row="1" Click="BtnSend_Click" >send</Button>
+        <TextBox Name="tbRecvive" Grid.Row="3"></TextBox>
+        
+    </Grid>
+</Window>

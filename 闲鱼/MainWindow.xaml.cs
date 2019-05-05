@@ -28,22 +28,18 @@ namespace 闲鱼
         OverFlowCheckViewModel viewModel = new OverFlowCheckViewModel();
         public MainWindow()
         {
-            InitializeComponent();
-            this.DataContext = viewModel;
+            LoginWindow login = new LoginWindow();
+            var rt= login.ShowDialog();
+            login.Close();
+            if (rt==true)
+            {
+                InitializeComponent();
 
-         //   string date = System.DateTime.Now.ToLocalTime().ToString("yy-MM-dd hh:mm-ss");
-            //List<DMCode> CodeList = new List<DMCode> {
-            //        new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921***",Info="追求极致"}
-            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921****",Info="追求极致"}
-            //         ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921***",Info="追求极致，"}
-            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1840921****",Email="1840921****",Info="追求极致"}
-            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-            //        ,new DMCode() {  CodeID=1,CodeName=date,Phone="1870921****",Email="1840921****",Info="追求极致，"}
-            //    };
-           AduDataGrids.ItemsSource = (this.DataContext as OverFlowCheckViewModel).CodeList;
-         
+                this.DataContext = viewModel;
+                AduDataGrids.ItemsSource = (this.DataContext as OverFlowCheckViewModel).CodeList;
+
+            }
+
         }
 
       

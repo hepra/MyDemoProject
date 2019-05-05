@@ -91,6 +91,9 @@
     <Compile Include="Common\ConfigureHelper.cs" />
     <Compile Include="Common\TCPHelper.cs" />
     <Compile Include="DbService\DBbase.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\DMCode.cs" />
     <Compile Include="MVVM\DelegateCommand.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />
@@ -104,6 +107,10 @@
     <Compile Include="VideoPro\VideoStreamDecoder.cs" />
     <Compile Include="ViewModel\OverFlowCheckViewModel.cs" />
     <Page Include="ClientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,6 +159,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="styles\Svg_Icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="styles\WemewCommonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
